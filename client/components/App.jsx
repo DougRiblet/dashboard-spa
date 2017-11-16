@@ -15,6 +15,10 @@ export default class App extends React.Component {
     this.setMode = this.setMode.bind(this);
     this.generateMainPane = this.generateMainPane.bind(this);
     this.handleListItemClick = this.handleListItemClick.bind(this);
+    this.retrieveAllUsers = this.retrieveAllUsers.bind(this);
+    this.addUser = this.addUser.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
   }
 
   setMode(input){
@@ -50,19 +54,43 @@ export default class App extends React.Component {
   // BEGIN DATABASE CALLS
 
   retrieveAllUsers(){
-
+    axios.get('http://localhost:8000/allUsers')
+      .then(response => {
+        this.setState({ users: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   addUser(data){
-
+    axios.post('http://localhost:8000/newUser', data)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   updateUser(data){
-
+    axios.post('http://localhost:8000/updateUser/' + data._id, data)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   deleteUser(id){
-
+    axios.delete('http://localhost:8000/deleteUser/' + id)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   // END DATABASE CALLS
