@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import UserList from './UserList';
 import UserDisplay from './UserDisplay';
+import Welcome from './Welcome';
+import UserAddNew from './UserAddNew';
+import UserEdit from './UserEdit';
 
 export default class App extends React.Component {
   constructor() {
@@ -10,8 +13,8 @@ export default class App extends React.Component {
       mode: 'welcome',
       welcomeMessage: 'Please select user to display, or add a new user',
       active: null,
-      users: []
-    }
+      users: [],
+    };
     this.setMode = this.setMode.bind(this);
     this.generateMainPane = this.generateMainPane.bind(this);
     this.handleListItemClick = this.handleListItemClick.bind(this);
@@ -21,93 +24,93 @@ export default class App extends React.Component {
     this.deleteUser = this.deleteUser.bind(this);
   }
 
-  setMode(input){
-    this.setState({mode: input});
+  setMode(input) {
+    this.setState({ mode: input });
   }
 
-  handleListItemClick(id){
-    this.setState({mode: 'display', active: id});
+  handleListItemClick(id) {
+    this.setState({ mode: 'display', active: id });
   }
 
-  generateMainPane(){
-    if (this.state.mode === 'welcome'){
+  generateMainPane() {
+    if (this.state.mode === 'welcome') {
       return (
         <Welcome welcomeMessage={this.state.welcomeMessage} />
-      )
+      );
     }
-    let currentUser = this.state.users.find(x => x.id === this.state.active);
-    if (this.state.mode === 'display'){
+    const currentUser = this.state.users.find(x => x.id === this.state.active);
+    if (this.state.mode === 'display') {
       return (
         <UserDisplay user={currentUser} />
-      )
+      );
     } else if (this.state.mode === 'addnew') {
       return (
         <UserAddNew user={currentUser} />
-      )
+      );
     } else if (this.state.mode === 'edit') {
       return (
         <UserEdit user={currentUser} />
-      )
+      );
     }
   }
 
   // BEGIN DATABASE CALLS
 
-  retrieveAllUsers(){
+  retrieveAllUsers() {
     axios.get('http://localhost:8000/allUsers')
-      .then(response => {
+      .then((response) => {
         this.setState({ users: response.data });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
+      });
   }
 
-  addUser(data){
+  addUser(data) {
     axios.post('http://localhost:8000/newUser', data)
-      .then(response => {
+      .then((response) => {
         console.log(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
+      });
   }
 
-  updateUser(data){
-    axios.post('http://localhost:8000/updateUser/' + data._id, data)
-      .then(response => {
+  updateUser(data) {
+    axios.post(`http://localhost:8000/updateUser/${data._id}`, data)
+      .then((response) => {
         console.log(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
+      });
   }
 
-  deleteUser(id){
-    axios.delete('http://localhost:8000/deleteUser/' + id)
-      .then(response => {
+  deleteUser(id) {
+    axios.delete(`http://localhost:8000/deleteUser/${id}`)
+      .then((response) => {
         console.log(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
+      });
   }
 
   // END DATABASE CALLS
 
-  render () {
+  render() {
     return (
       <div>
         <div id='user-list'>
-          <UserList 
+          <UserList
             users={this.state.users}
-            handleListItemClick={()=>this.handleListItemClick()}
+            handleListItemClick={() => this.handleListItemClick()}
           />
         </div>
         <div id='main-pane'>
           { this.generateMainPane() }
         </div>
       </div>
-    )
+    );
   }
 }

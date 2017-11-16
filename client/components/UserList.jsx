@@ -1,32 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-const UserList = ({users, handleListItemClick}) => {
-  return (
-    <ul>
-      {
-        users.map(function(user){
-          return (
-            <li onClick={() => handleListItemClick(user.id)}>{user.name}</li>
-          )
-        })
-      }
-    </ul>
-  )
-}
+const UserList = ({ users, handleListItemClick }) => (
+  <ul>
+    {
+      users.map(user => (
+          <li onClick={() => handleListItemClick(user.id)}>{user.name}</li>
+        )
+      )
+    }
+  </ul>
+);
 
 UserList.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object),
-  handleListItemClick: PropTypes.func
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleListItemClick: PropTypes.func.isRequired,
 };
 
 export default UserList;
-
-// export default class UserList extends React.Component {
-//   render () {
-//     return (
-//       <div>
-//       </div>
-//     )
-//   }
-// }
