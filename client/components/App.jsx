@@ -77,6 +77,7 @@ export default class App extends React.Component {
   addUser(data) {
     axios.post('http://localhost:8000/newUser', data)
       .then((response) => {
+        this.retrieveAllUsers();
         this.setMode('welcome');
       })
       .catch((error) => {

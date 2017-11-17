@@ -8497,6 +8497,7 @@ var App = function (_React$Component) {
       var _this4 = this;
 
       _axios2.default.post('http://localhost:8000/newUser', data).then(function (response) {
+        _this4.retrieveAllUsers();
         _this4.setMode('welcome');
       }).catch(function (error) {
         console.log(error);
