@@ -19,7 +19,7 @@ if(!process.env.MONGODB_URI){
 
 mongoose.Promise = require('bluebird');
 
-mongoose.connect(uri, { useMongoClient: true })
+mongoose.connect(uri)
   .then(() => {
     console.log('Mongoose connection established');
   })

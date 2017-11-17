@@ -8519,7 +8519,7 @@ var App = function (_React$Component) {
     value: function retrieveAllUsers() {
       var _this3 = this;
 
-      _axios2.default.get('http://localhost:8000/allUsers').then(function (response) {
+      _axios2.default.get('https://dashboard-spa-1115.herokuapp.com/allUsers').then(function (response) {
         _this3.setState({ users: response.data });
       }).catch(function (error) {
         console.log(error);
@@ -8530,7 +8530,7 @@ var App = function (_React$Component) {
     value: function addUser(data) {
       var _this4 = this;
 
-      _axios2.default.post('http://localhost:8000/newUser', data).then(function (response) {
+      _axios2.default.post('https://dashboard-spa-1115.herokuapp.com/newUser', data).then(function (response) {
         _this4.retrieveAllUsers();
         _this4.setMode('welcome');
       }).catch(function (error) {
@@ -8542,7 +8542,7 @@ var App = function (_React$Component) {
     value: function updateUser(data) {
       var _this5 = this;
 
-      _axios2.default.post('http://localhost:8000/updateUser/' + data._id, data).then(function (response) {
+      _axios2.default.post('https://dashboard-spa-1115.herokuapp.com/updateUser/' + data._id, data).then(function (response) {
         _this5.retrieveAllUsers();
         _this5.setMode('welcome');
       }).catch(function (error) {
@@ -8554,7 +8554,7 @@ var App = function (_React$Component) {
     value: function deleteUser(id) {
       var _this6 = this;
 
-      _axios2.default.delete('http://localhost:8000/deleteUser/' + id).then(function (response) {
+      _axios2.default.delete('https://dashboard-spa-1115.herokuapp.com/deleteUser/' + id).then(function (response) {
         _this6.retrieveAllUsers();
         _this6.setMode('welcome');
       }).catch(function (error) {

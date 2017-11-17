@@ -65,7 +65,7 @@ export default class App extends React.Component {
   // BEGIN DATABASE CALLS
 
   retrieveAllUsers() {
-    axios.get('http://localhost:8000/allUsers')
+    axios.get('https://dashboard-spa-1115.herokuapp.com/allUsers')
       .then((response) => {
         this.setState({ users: response.data });
       })
@@ -75,7 +75,7 @@ export default class App extends React.Component {
   }
 
   addUser(data) {
-    axios.post('http://localhost:8000/newUser', data)
+    axios.post('https://dashboard-spa-1115.herokuapp.com/newUser', data)
       .then((response) => {
         this.retrieveAllUsers();
         this.setMode('welcome');
@@ -86,7 +86,7 @@ export default class App extends React.Component {
   }
 
   updateUser(data) {
-    axios.post(`http://localhost:8000/updateUser/${data._id}`, data)
+    axios.post(`https://dashboard-spa-1115.herokuapp.com/updateUser/${data._id}`, data)
       .then((response) => {
         this.retrieveAllUsers();
         this.setMode('welcome');
@@ -97,7 +97,7 @@ export default class App extends React.Component {
   }
 
   deleteUser(id) {
-    axios.delete(`http://localhost:8000/deleteUser/${id}`)
+    axios.delete(`https://dashboard-spa-1115.herokuapp.com/deleteUser/${id}`)
       .then((response) => {
         this.retrieveAllUsers();
         this.setMode('welcome');
