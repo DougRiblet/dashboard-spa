@@ -16,6 +16,11 @@ export default class UserAddNew extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.addUser({
+      fullName: this.state.fullName,
+      photoURL: this.state.photoURL,
+      blurb: this.state.blurb,
+    })
   }
 
   handleChangeFN(event) {
@@ -36,6 +41,7 @@ export default class UserAddNew extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <label htmlFor='full-name'>
             Full Name:
+            <br />
             <input
               id='full-name'
               type='text'
@@ -46,9 +52,11 @@ export default class UserAddNew extends React.Component {
           <br />
           <label htmlFor='photo-URL'>
             Photo URL:
+            <br />
             <input
               id='photo-URL'
               type='text'
+              size='50'
               value={this.state.photoURL}
               onChange={this.handleChangePU}
             />
@@ -56,13 +64,16 @@ export default class UserAddNew extends React.Component {
           <br />
           <label htmlFor='personal-blurb'>
             Personal Blurb:
+            <br />
             <input
               id='personal-blurb'
               type='text'
+              size='50'
               value={this.state.blurb}
               onChange={this.handleChangeBL}
             />
           </label>
+          <br />
           <input type='submit' value='Submit' className='submitButton' />
         </form>
       </div>

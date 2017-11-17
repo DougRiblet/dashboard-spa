@@ -8452,7 +8452,6 @@ var App = function (_React$Component) {
   }, {
     key: 'handleListItemClick',
     value: function handleListItemClick(id) {
-      console.log("clickID: ", id);
       this.setState({ mode: 'display', current: id });
     }
   }, {
@@ -8466,13 +8465,16 @@ var App = function (_React$Component) {
       var currentUser = this.state.users.find(function (x) {
         return x._id === _this2.state.current;
       });
-      console.log("currentUser: ", currentUser);
       if (this.state.mode === 'display') {
-        return _react2.default.createElement(_UserDisplay2.default, { user: currentUser });
+        return _react2.default.createElement(_UserDisplay2.default, { user: currentUser, setMode: this.setMode });
       } else if (this.state.mode === 'addnew') {
-        return _react2.default.createElement(_UserAddNew2.default, { user: currentUser });
+        return _react2.default.createElement(_UserAddNew2.default, { addUser: this.addUser });
       } else if (this.state.mode === 'edit') {
-        return _react2.default.createElement(_UserEdit2.default, { user: currentUser });
+        return _react2.default.createElement(_UserEdit2.default, {
+          user: currentUser,
+          updateUser: this.updateUser,
+          deleteUser: this.deleteUser
+        });
       }
     }
 
@@ -8492,8 +8494,10 @@ var App = function (_React$Component) {
   }, {
     key: 'addUser',
     value: function addUser(data) {
+      var _this4 = this;
+
       _axios2.default.post('http://localhost:8000/newUser', data).then(function (response) {
-        console.log(response.data);
+        _this4.setMode('welcome');
       }).catch(function (error) {
         console.log(error);
       });
@@ -8501,8 +8505,11 @@ var App = function (_React$Component) {
   }, {
     key: 'updateUser',
     value: function updateUser(data) {
+      var _this5 = this;
+
       _axios2.default.post('http://localhost:8000/updateUser/' + data._id, data).then(function (response) {
-        console.log(response.data);
+        _this5.retrieveAllUsers();
+        _this5.setMode('welcome');
       }).catch(function (error) {
         console.log(error);
       });
@@ -8510,8 +8517,11 @@ var App = function (_React$Component) {
   }, {
     key: 'deleteUser',
     value: function deleteUser(id) {
+      var _this6 = this;
+
       _axios2.default.delete('http://localhost:8000/deleteUser/' + id).then(function (response) {
-        console.log(response.data);
+        _this6.retrieveAllUsers();
+        _this6.setMode('welcome');
       }).catch(function (error) {
         console.log(error);
       });
@@ -8530,7 +8540,8 @@ var App = function (_React$Component) {
           { id: 'user-list' },
           _react2.default.createElement(_UserList2.default, {
             users: this.state.users,
-            handleListItemClick: this.handleListItemClick
+            handleListItemClick: this.handleListItemClick,
+            setMode: this.setMode
           })
         ),
         _react2.default.createElement(
@@ -9425,14 +9436,19 @@ var UserList = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (UserList.__proto__ || Object.getPrototypeOf(UserList)).call(this, props));
 
     _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleNewUserButton = _this.handleNewUserButton.bind(_this);
     return _this;
   }
 
   _createClass(UserList, [{
     key: 'handleClick',
     value: function handleClick(str) {
-      console.log("clickSTR: ", str);
       this.props.handleListItemClick(str);
+    }
+  }, {
+    key: 'handleNewUserButton',
+    value: function handleNewUserButton() {
+      this.props.setMode('addnew');
     }
   }, {
     key: 'render',
@@ -9440,15 +9456,27 @@ var UserList = function (_React$Component) {
       var _this2 = this;
 
       return _react2.default.createElement(
-        'ul',
+        'div',
         null,
-        this.props.users.map(function (user) {
-          return _react2.default.createElement(_UserListItem2.default, {
-            handleClick: _this2.handleClick,
-            user: user,
-            key: user._id
-          });
-        })
+        _react2.default.createElement(
+          'ul',
+          null,
+          this.props.users.map(function (user) {
+            return _react2.default.createElement(_UserListItem2.default, {
+              handleClick: _this2.handleClick,
+              user: user,
+              key: user._id
+            });
+          })
+        ),
+        _react2.default.createElement(
+          'button',
+          {
+            id: 'addUserButton',
+            onClick: this.handleNewUserButton
+          },
+          'Add New User'
+        )
       );
     }
   }]);
@@ -9476,7 +9504,8 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var UserDisplay = function UserDisplay(_ref) {
-  var user = _ref.user;
+  var user = _ref.user,
+      setMode = _ref.setMode;
   return _react2.default.createElement(
     'div',
     { id: 'user-display' },
@@ -9500,6 +9529,20 @@ var UserDisplay = function UserDisplay(_ref) {
         'h4',
         null,
         user.blurb
+      )
+    ),
+    _react2.default.createElement(
+      'div',
+      { id: 'user-buttons' },
+      _react2.default.createElement(
+        'button',
+        {
+          id: 'editUserButton',
+          onClick: function onClick() {
+            return setMode('edit');
+          }
+        },
+        'Edit This User'
       )
     )
   );
@@ -9531,9 +9574,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Welcome = function Welcome(_ref) {
   var welcomeMessage = _ref.welcomeMessage;
   return _react2.default.createElement(
-    'h4',
-    { id: 'welcome' },
-    welcomeMessage
+    'div',
+    { id: 'welcome-pane' },
+    _react2.default.createElement(
+      'h4',
+      { id: 'welcome' },
+      welcomeMessage
+    )
   );
 };
 
@@ -10210,6 +10257,11 @@ var UserAddNew = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
+      this.props.addUser({
+        fullName: this.state.fullName,
+        photoURL: this.state.photoURL,
+        blurb: this.state.blurb
+      });
     }
   }, {
     key: 'handleChangeFN',
@@ -10239,6 +10291,7 @@ var UserAddNew = function (_React$Component) {
             'label',
             { htmlFor: 'full-name' },
             'Full Name:',
+            _react2.default.createElement('br', null),
             _react2.default.createElement('input', {
               id: 'full-name',
               type: 'text',
@@ -10251,9 +10304,11 @@ var UserAddNew = function (_React$Component) {
             'label',
             { htmlFor: 'photo-URL' },
             'Photo URL:',
+            _react2.default.createElement('br', null),
             _react2.default.createElement('input', {
               id: 'photo-URL',
               type: 'text',
+              size: '50',
               value: this.state.photoURL,
               onChange: this.handleChangePU
             })
@@ -10263,13 +10318,16 @@ var UserAddNew = function (_React$Component) {
             'label',
             { htmlFor: 'personal-blurb' },
             'Personal Blurb:',
+            _react2.default.createElement('br', null),
             _react2.default.createElement('input', {
               id: 'personal-blurb',
               type: 'text',
+              size: '50',
               value: this.state.blurb,
               onChange: this.handleChangeBL
             })
           ),
+          _react2.default.createElement('br', null),
           _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'submitButton' })
         )
       );
@@ -10323,6 +10381,7 @@ var UserEdit = function (_React$Component) {
     _this.handleChangePU = _this.handleChangePU.bind(_this);
     _this.handleChangeBL = _this.handleChangeBL.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleDeleteUserButton = _this.handleDeleteUserButton.bind(_this);
     return _this;
   }
 
@@ -10339,6 +10398,17 @@ var UserEdit = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
+      this.props.updateUser({
+        _id: this.props.user._id,
+        fullName: this.state.fullName,
+        photoURL: this.state.photoURL,
+        blurb: this.state.blurb
+      });
+    }
+  }, {
+    key: 'handleDeleteUserButton',
+    value: function handleDeleteUserButton() {
+      this.props.deleteUser(this.props.user._id);
     }
   }, {
     key: 'handleChangeFN',
@@ -10368,6 +10438,7 @@ var UserEdit = function (_React$Component) {
             'label',
             { htmlFor: 'full-name' },
             'Full Name:',
+            _react2.default.createElement('br', null),
             _react2.default.createElement('input', {
               id: 'full-name',
               type: 'text',
@@ -10380,9 +10451,11 @@ var UserEdit = function (_React$Component) {
             'label',
             { htmlFor: 'photo-URL' },
             'Photo URL:',
+            _react2.default.createElement('br', null),
             _react2.default.createElement('input', {
               id: 'photo-URL',
               type: 'text',
+              size: '50',
               value: this.state.photoURL,
               onChange: this.handleChangePU
             })
@@ -10392,14 +10465,29 @@ var UserEdit = function (_React$Component) {
             'label',
             { htmlFor: 'personal-blurb' },
             'Personal Blurb:',
+            _react2.default.createElement('br', null),
             _react2.default.createElement('input', {
               id: 'personal-blurb',
               type: 'text',
+              size: '50',
               value: this.state.blurb,
               onChange: this.handleChangeBL
             })
           ),
-          _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'submitButton' })
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('input', { type: 'submit', value: 'Update This User', className: 'submitButton' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'deleteUserDiv' },
+          _react2.default.createElement(
+            'button',
+            {
+              id: 'deleteUserButton',
+              onClick: this.handleDeleteUserButton
+            },
+            'Delete This User'
+          )
         )
       );
     }

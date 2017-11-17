@@ -60,7 +60,7 @@ app.post('/newUser', function(req, res) {
   var newb = new Dash(req.body);
   newb.save()
     .then(item => {
-      res.status(200).send("Successfully added");
+      res.status(200).send(item);
     })
     .catch(err => {
       res.status(400).send("Error saving to database");

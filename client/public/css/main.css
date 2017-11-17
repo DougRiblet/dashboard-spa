@@ -2,7 +2,7 @@ body {
   background-color: #e7eeec; }
 
 #container {
-  max-width: 900px;
+  max-width: 800px;
   margin: 40px auto; }
 
 #user-list {
@@ -11,17 +11,26 @@ body {
   padding: 10px 20px;
   text-align: right;
   border-right: 1px solid gray;
+  margin-right: 40px;
   min-height: 400px; }
   #user-list ul {
     list-style-type: none; }
     #user-list ul li {
-      margin-bottom: 12px; }
+      margin-bottom: 12px;
+      cursor: pointer; }
 
 #main-pane {
-  width: 65%;
-  text-align: center;
-  padding: 10px 40px; }
+  padding: 20px; }
+  #main-pane #user-display {
+    text-align: center; }
+  #main-pane #welcome-pane {
+    text-align: left; }
+  #main-pane .formEdit {
+    text-align: left; }
 
 #user-photo img {
   max-width: 200px;
   border-radius: 50%; }
+
+#deleteUserDiv {
+  margin-top: 40px; }

@@ -12,6 +12,7 @@ export default class UserEdit extends React.Component {
     this.handleChangePU = this.handleChangePU.bind(this);
     this.handleChangeBL = this.handleChangeBL.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDeleteUserButton = this.handleDeleteUserButton.bind(this);
   }
 
   componentDidMount() {
@@ -24,6 +25,16 @@ export default class UserEdit extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.updateUser({
+      _id: this.props.user._id,
+      fullName: this.state.fullName,
+      photoURL: this.state.photoURL,
+      blurb: this.state.blurb,
+    })
+  }
+
+  handleDeleteUserButton() {
+    this.props.deleteUser(this.props.user._id);
   }
 
   handleChangeFN(event) {
@@ -44,6 +55,7 @@ export default class UserEdit extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <label htmlFor='full-name'>
             Full Name:
+            <br />
             <input
               id='full-name'
               type='text'
@@ -54,9 +66,11 @@ export default class UserEdit extends React.Component {
           <br />
           <label htmlFor='photo-URL'>
             Photo URL:
+            <br />
             <input
               id='photo-URL'
               type='text'
+              size='50'
               value={this.state.photoURL}
               onChange={this.handleChangePU}
             />
@@ -64,15 +78,24 @@ export default class UserEdit extends React.Component {
           <br />
           <label htmlFor='personal-blurb'>
             Personal Blurb:
+            <br />
             <input
               id='personal-blurb'
               type='text'
+              size='50'
               value={this.state.blurb}
               onChange={this.handleChangeBL}
             />
           </label>
-          <input type='submit' value='Submit' className='submitButton' />
+          <br />
+          <input type='submit' value='Update This User' className='submitButton' />
         </form>
+        <div id='deleteUserDiv'>
+          <button
+            id='deleteUserButton'
+            onClick={this.handleDeleteUserButton}
+          >Delete This User</button>
+        </div>
       </div>
     );
   }

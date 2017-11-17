@@ -33,7 +33,6 @@ export default class App extends React.Component {
   }
 
   handleListItemClick(id) {
-    console.log("clickID: ", id);
     this.setState({ mode: 'display', current: id });
   }
 
@@ -44,18 +43,21 @@ export default class App extends React.Component {
       );
     }
     const currentUser = this.state.users.find(x => x._id === this.state.current);
-    console.log("currentUser: ", currentUser)
     if (this.state.mode === 'display') {
       return (
-        <UserDisplay user={currentUser} />
+        <UserDisplay user={currentUser} setMode={this.setMode} />
       );
     } else if (this.state.mode === 'addnew') {
       return (
-        <UserAddNew user={currentUser} />
+        <UserAddNew addUser={this.addUser} />
       );
     } else if (this.state.mode === 'edit') {
       return (
-        <UserEdit user={currentUser} />
+        <UserEdit
+          user={currentUser}
+          updateUser={this.updateUser}
+          deleteUser={this.deleteUser}
+        />
       );
     }
   }
@@ -75,7 +77,7 @@ export default class App extends React.Component {
   addUser(data) {
     axios.post('http://localhost:8000/newUser', data)
       .then((response) => {
-        console.log(response.data);
+        this.setMode('welcome');
       })
       .catch((error) => {
         console.log(error);
@@ -85,7 +87,8 @@ export default class App extends React.Component {
   updateUser(data) {
     axios.post(`http://localhost:8000/updateUser/${data._id}`, data)
       .then((response) => {
-        console.log(response.data);
+        this.retrieveAllUsers();
+        this.setMode('welcome');
       })
       .catch((error) => {
         console.log(error);
@@ -95,7 +98,8 @@ export default class App extends React.Component {
   deleteUser(id) {
     axios.delete(`http://localhost:8000/deleteUser/${id}`)
       .then((response) => {
-        console.log(response.data);
+        this.retrieveAllUsers();
+        this.setMode('welcome');
       })
       .catch((error) => {
         console.log(error);
@@ -111,6 +115,7 @@ export default class App extends React.Component {
           <UserList
             users={this.state.users}
             handleListItemClick={this.handleListItemClick}
+            setMode={this.setMode}
           />
         </div>
         <div id='main-pane'>
