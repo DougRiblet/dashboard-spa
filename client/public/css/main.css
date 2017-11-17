@@ -1,11 +1,9 @@
 body {
-  background-color: #e7eeec;
-}
+  background-color: #e7eeec; }
 
 #container {
   max-width: 900px;
-  margin: 40px auto;
-}
+  margin: 40px auto; }
 
 #user-list {
   width: 25%;
@@ -13,23 +11,17 @@ body {
   padding: 10px 20px;
   text-align: right;
   border-right: 1px solid gray;
-  min-height: 400px;
-  ul {
-    list-style-type: none;
-    li {
-      margin-bottom: 12px;
-    }
-  }
-}
+  min-height: 400px; }
+  #user-list ul {
+    list-style-type: none; }
+    #user-list ul li {
+      margin-bottom: 12px; }
 
 #main-pane {
   width: 65%;
   text-align: center;
-  padding: 10px 40px;
-}
+  padding: 10px 40px; }
 
 #user-photo img {
   max-width: 200px;
-  border-radius: 50%;
-}
-
+  border-radius: 50%; }

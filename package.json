@@ -4,7 +4,7 @@
   "description": "dashboard app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server/app.js",
+    "start": "nodemon ./server/server.js",
     "build": "webpack --watch",
     "build-css": "node-sass client/scss/main.scss client/public/css/main.css",
     "lint": "eslint --ext .jsx client"

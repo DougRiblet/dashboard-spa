@@ -12,7 +12,7 @@ export default class App extends React.Component {
     this.state = {
       mode: 'welcome',
       welcomeMessage: 'Please select user to display, or add a new user',
-      active: null,
+      current: '',
       users: [],
     };
     this.setMode = this.setMode.bind(this);
@@ -24,12 +24,17 @@ export default class App extends React.Component {
     this.deleteUser = this.deleteUser.bind(this);
   }
 
+  componentDidMount() {
+    this.retrieveAllUsers();
+  }
+
   setMode(input) {
     this.setState({ mode: input });
   }
 
   handleListItemClick(id) {
-    this.setState({ mode: 'display', active: id });
+    console.log("clickID: ", id);
+    this.setState({ mode: 'display', current: id });
   }
 
   generateMainPane() {
@@ -38,7 +43,8 @@ export default class App extends React.Component {
         <Welcome welcomeMessage={this.state.welcomeMessage} />
       );
     }
-    const currentUser = this.state.users.find(x => x.id === this.state.active);
+    const currentUser = this.state.users.find(x => x._id === this.state.current);
+    console.log("currentUser: ", currentUser)
     if (this.state.mode === 'display') {
       return (
         <UserDisplay user={currentUser} />
@@ -100,11 +106,11 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id='container'>
         <div id='user-list'>
           <UserList
             users={this.state.users}
-            handleListItemClick={() => this.handleListItemClick()}
+            handleListItemClick={this.handleListItemClick}
           />
         </div>
         <div id='main-pane'>

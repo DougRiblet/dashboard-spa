@@ -4,8 +4,8 @@ const UserDisplay = ({ user }) => (
   <div id='user-display'>
     <div id='user-photo'>
       <img
-        src='{user.photoURL}'
-        alt='{user.fullName}'
+        src={user.photoURL}
+        alt={user.fullName}
       />
     </div>
     <div id='user-text'>

@@ -1,9 +1,13 @@
 var express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 var app = express();
 var port = process.env.PORT || 8000;
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // MONGOOSE 
 
@@ -15,7 +19,7 @@ if(!process.env.MONGODB_URI){
 
 mongoose.Promise = require('bluebird');
 
-mongoose.connect(uri)
+mongoose.connect(uri, { useMongoClient: true })
   .then(() => {
     console.log('Mongoose connection established');
   })
@@ -56,7 +60,7 @@ app.post('/newUser', function(req, res) {
   var newb = new Dash(req.body);
   newb.save()
     .then(item => {
-      res.status(200).json(message: 'Successfully added');
+      res.status(200).send("Successfully added");
     })
     .catch(err => {
       res.status(400).send("Error saving to database");
