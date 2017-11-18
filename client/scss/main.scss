@@ -46,3 +46,22 @@ body {
   margin-top: 40px;
 }
 
+input[type=text] {
+  padding: 6px 12px;
+  margin: 2px 0 12px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+input[type=submit], button {
+  width: 120px;
+  padding: 6px 12px;
+  color: #eeeeee;
+  background-color: #228822;
+  border-radius: 4px;
+  &:hover {
+    background-color: #44aa44;
+  }
+}
