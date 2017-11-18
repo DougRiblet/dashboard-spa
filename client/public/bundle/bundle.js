@@ -9510,7 +9510,7 @@ var UserList = function (_React$Component) {
             id: 'addUserButton',
             onClick: this.handleNewUserButton
           },
-          'Add New User'
+          'Add User'
         )
       );
     }
@@ -10203,7 +10203,7 @@ var UserDisplay = function UserDisplay(_ref) {
             return setMode('edit');
           }
         },
-        'Edit This User'
+        'Edit User'
       )
     )
   );
@@ -10518,7 +10518,7 @@ var UserEdit = function (_React$Component) {
             })
           ),
           _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { type: 'submit', value: 'Update This User', className: 'submitButton' })
+          _react2.default.createElement('input', { type: 'submit', value: 'Update User', className: 'submitButton' })
         ),
         _react2.default.createElement(
           'div',
@@ -10529,7 +10529,7 @@ var UserEdit = function (_React$Component) {
               id: 'deleteUserButton',
               onClick: this.handleDeleteUserButton
             },
-            'Delete This User'
+            'Delete User'
           )
         )
       );

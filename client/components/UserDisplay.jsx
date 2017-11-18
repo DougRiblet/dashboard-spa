@@ -16,7 +16,7 @@ const UserDisplay = ({ user, setMode }) => (
       <button
         id='editUserButton'
         onClick={() => setMode('edit')}
-      >Edit This User</button>
+      >Edit User</button>
     </div>
   </div>
 );

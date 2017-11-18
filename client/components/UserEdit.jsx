@@ -88,13 +88,13 @@ export default class UserEdit extends React.Component {
             />
           </label>
           <br />
-          <input type='submit' value='Update This User' className='submitButton' />
+          <input type='submit' value='Update User' className='submitButton' />
         </form>
         <div id='deleteUserDiv'>
           <button
             id='deleteUserButton'
             onClick={this.handleDeleteUserButton}
-          >Delete This User</button>
+          >Delete User</button>
         </div>
       </div>
     );

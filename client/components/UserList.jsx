@@ -33,7 +33,7 @@ export default class UserList extends React.Component {
         <button
           id='addUserButton'
           onClick={this.handleNewUserButton}
-        >Add New User</button>
+        >Add User</button>
       </div>
     );
   }
